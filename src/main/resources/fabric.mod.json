@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "dopey",
-  "version": "alpha 1.1",
+  "version": "alpha 1.4",
   "name": "dopey",
   "description": "swagger block game client",
   "authors": [],
   "contact": {},
-  "license": "BSD-2-Clause-FreeBSD",
+  "license": "MIT",
   "environment": "client",
   "entrypoints": {
     "client": [

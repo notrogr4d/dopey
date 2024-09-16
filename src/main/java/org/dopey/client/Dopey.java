@@ -12,7 +12,6 @@ import net.minecraft.client.util.InputUtil;
 
 public class Dopey implements ClientModInitializer {
     private KeyBinding keyBinding;
-    private MinecraftClient client;
 
     @Override
     public void onInitializeClient() {
@@ -28,7 +27,7 @@ public class Dopey implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
 
-        client = MinecraftClient.getInstance();
+        MinecraftClient client = MinecraftClient.getInstance();
         if (client != null && client.getWindow() != null) {
             client.getWindow().setTitle("dopey client ALPHA-PRE-0.1");
         }
