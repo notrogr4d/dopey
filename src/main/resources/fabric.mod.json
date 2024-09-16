@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "dopey",
+  "version": "alpha 1.1",
+  "name": "dopey",
+  "description": "swagger block game client",
+  "authors": [],
+  "contact": {},
+  "license": "BSD-2-Clause-FreeBSD",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.dopey.client.Dopey"
+    ]
+  },
+  "mixins": [
+    "dopey.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
