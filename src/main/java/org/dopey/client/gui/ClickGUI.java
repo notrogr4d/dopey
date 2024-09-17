@@ -8,9 +8,11 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.dopey.client.mods.movement.*;
+import org.dopey.client.mods.pvp.AutoCrystal;
 import org.dopey.client.mods.pvp.AutoTotem;
 import org.dopey.client.mods.pvp.CrystalAura;
 import org.dopey.client.mods.util.NoFall;
+import org.dopey.client.mods.util.Velocity;
 
 @Environment(EnvType.CLIENT)
 public class ClickGUI extends Screen {
@@ -25,6 +27,8 @@ public class ClickGUI extends Screen {
     public ButtonWidget autoTotem;
     public ButtonWidget crystalAura;
     public ButtonWidget noFall;
+    public ButtonWidget autoCrystal;
+    public ButtonWidget velocity;
     @Override
     public void init() {
         int startX = 20;
@@ -52,7 +56,7 @@ public class ClickGUI extends Screen {
                 .build();
         crystalAura = ButtonWidget.builder(Text.literal("CrystalAura"), button -> CrystalAura.enabled = !CrystalAura.enabled)
                 .dimensions(startX, startY + 10 * (buttonHeight + verticalSpacing), buttonWidth, buttonHeight)
-                .tooltip(Tooltip.of(Text.literal("Automatically hits EndCrystals (EXPERIMENTAL)")))
+                .tooltip(Tooltip.of(Text.literal("Automatically hits EndCrystals")))
                 .build();
         creativeFly = ButtonWidget.builder(Text.literal("CreativeFly"), button -> CreativeFly.enabled = !CreativeFly.enabled)
                 .dimensions(startX + 210, startY + 2 * (buttonHeight + verticalSpacing), buttonWidth, buttonHeight)
@@ -62,6 +66,14 @@ public class ClickGUI extends Screen {
                 .dimensions(startX + 210, startY + 4 * (buttonHeight + verticalSpacing), buttonWidth, buttonHeight)
                 .tooltip(Tooltip.of(Text.literal("Allows player to not take any fall damage")))
                 .build();
+        autoCrystal = ButtonWidget.builder(Text.literal("AutoCrystal"), button -> AutoCrystal.enabled = !AutoCrystal.enabled)
+                .dimensions(startX + 210, startY + 6 * (buttonHeight + verticalSpacing), buttonWidth, buttonHeight)
+                .tooltip(Tooltip.of(Text.literal("Automatically places EndCrystals")))
+                .build();
+        velocity = ButtonWidget.builder(Text.literal("Velocity"), button -> Velocity.enabled = !Velocity.enabled)
+                .dimensions(startX + 210, startY + 8 * (buttonHeight + verticalSpacing), buttonWidth, buttonHeight)
+                .tooltip(Tooltip.of(Text.literal("Stops the player from taking knockback when enabled")))
+                .build();
         addDrawableChild(autoSprint);
         addDrawableChild(elytraGlide);
         addDrawableChild(playerSpeed);
@@ -69,6 +81,8 @@ public class ClickGUI extends Screen {
         addDrawableChild(crystalAura);
         addDrawableChild(creativeFly);
         addDrawableChild(noFall);
+        addDrawableChild(autoCrystal);
+        addDrawableChild(velocity);
     }
 
     @Override

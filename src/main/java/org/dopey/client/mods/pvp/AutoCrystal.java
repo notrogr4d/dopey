@@ -17,15 +17,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.dopey.client.mods.Module;
 
-import java.util.Objects;
-
 @Environment(EnvType.CLIENT)
-public class CrystalAura extends Module {
+public class AutoCrystal extends Module {
 
     private final MinecraftClient client = MinecraftClient.getInstance();
     public static boolean enabled = false;
 
-    public CrystalAura() {
+    public AutoCrystal() {
         super("AutoCrystal");
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
@@ -45,31 +43,37 @@ public class CrystalAura extends Module {
 
             BlockPos playerPos = player.getBlockPos();
             BlockPos.Mutable blockPos = new BlockPos.Mutable();
+            BlockPos closestPos = null;
+            double closestDistance = Double.MAX_VALUE;
 
             for (int x = -5; x <= 5; x++) {
-                for (int y = -1; y <= 1; y++) {  // Check the Y level and one level above
+                for (int y = -5; y <= 5; y++) {
                     for (int z = -5; z <= 5; z++) {
-                        // Change this to your desired target Y level
-                        int targetYLevel = playerPos.getY();
-                        blockPos.set(playerPos.getX() + x, targetYLevel + y, playerPos.getZ() + z);
-                        assert client.world != null;
+                        blockPos.set(playerPos.getX() + x, playerPos.getY() + y, playerPos.getZ() + z);
                         Block block = client.world.getBlockState(blockPos).getBlock();
 
                         if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) {
-                            BlockHitResult blockHitResult = new BlockHitResult(
-                                    new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5),
-                                    Direction.UP,
-                                    blockPos,
-                                    false
-                            );
-
-                            Objects.requireNonNull(client.getNetworkHandler()).sendPacket(
-                                    new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)
-                            );
-                            return;
+                            double distance = playerPos.getSquaredDistance(blockPos);
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestPos = blockPos.toImmutable();
+                            }
                         }
                     }
                 }
+            }
+
+            if (closestPos != null) {
+                BlockHitResult blockHitResult = new BlockHitResult(
+                        new Vec3d(closestPos.getX() + 0.5, closestPos.getY() + 1.0, closestPos.getZ() + 0.5),
+                        Direction.UP,
+                        closestPos,
+                        false
+                );
+
+                client.getNetworkHandler().sendPacket(
+                        new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, blockHitResult, 0)
+                );
             }
         }
     }

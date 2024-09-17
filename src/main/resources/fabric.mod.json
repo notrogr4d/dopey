@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "dopey",
-  "version": "alpha 1.4",
+  "version": "beta 1.0",
   "name": "dopey",
   "description": "swagger block game client",
   "authors": [],
